@@ -1,0 +1,196 @@
+Here’s a detailed **Software Requirements Specification (SRS)** document for the **Virtual Stock Trading Platform** using **React** and **Django**. This document outlines the goals, requirements, system architecture, and components required to build the platform you specified.
+
+---
+
+## Software Requirements Specification (SRS)
+
+**Project Name:** Virtual Stock Trading Platform  
+**Developed By:** Aryan Panicker  
+**Date:** 24 October 2024  
+**Document Version:** 1.0
+
+---
+
+### 1. **Introduction**
+
+#### 1.1 Purpose
+
+The purpose of this SRS document is to outline the requirements and specifications for developing a Virtual Stock Trading Platform. The platform will simulate a real-world trading environment, providing users with features like market data, portfolio tracking, and trading functionalities without real financial risks. This document serves as a comprehensive guide for developers, designers, and stakeholders to ensure a common understanding of the system’s objectives and functionality.
+
+#### 1.2 Scope
+
+This project will allow users to:
+1. Register, log in, and manage their profiles.
+2. Access real-time market data and stock information.
+3. Buy and sell stocks, similar to an actual stock trading experience.
+4. Track their portfolio, holdings, and transaction history.
+5. View analytical charts and indicators for stocks.
+
+The frontend of this project will be built using React, while the backend will utilize Django and Django REST Framework.
+
+#### 1.3 Definitions, Acronyms, and Abbreviations
+
+- **REST API**: Representational State Transfer Application Programming Interface.
+- **CRUD**: Create, Read, Update, Delete.
+- **JSON**: JavaScript Object Notation, a lightweight data-interchange format.
+
+---
+
+### 2. **System Overview**
+
+This system simulates a stock trading platform where users can perform virtual trading operations using real-time data from financial APIs. It includes secure registration/authentication, portfolio management, and analytics capabilities.
+
+### 3. **Functional Requirements**
+
+#### 3.1 User Management
+
+1. **Registration**: Users can create an account by providing a username, password, and email.
+2. **Authentication**: Users can log in with their credentials.
+3. **Profile Management**: Users can view and edit profile details.
+
+#### 3.2 Market Data Integration
+
+1. **Real-Time Stock Prices**: Display real-time prices for selected stocks using a financial API (e.g., Alpha Vantage, Yahoo Finance).
+2. **Company Information**: Provide essential company data such as market cap, P/E ratio, and daily high/low prices.
+3. **Historical Data**: Fetch historical prices for stocks to enable charting and analytics.
+
+#### 3.3 Portfolio Management
+
+1. **Holdings**: Display a user’s holdings, including stock symbols, quantity, average purchase price, and current market value.
+2. **Transaction History**: Log all user transactions (buy/sell) with details like date, stock symbol, quantity, and transaction type.
+3. **Performance Metrics**: Display portfolio performance metrics, such as total value, profit/loss, and return on investment (ROI).
+
+#### 3.4 Trading Functionality
+
+1. **Place Orders**:
+   - **Market Order**: Execute a trade at the current market price.
+   - **Limit Order**: Execute a trade when the stock price meets a specified target.
+2. **Order Confirmation**: Provide confirmation before executing a trade.
+3. **Transaction Limits**: Set limits on transactions based on virtual account balance and stock availability.
+
+#### 3.5 Analytics & Charts
+
+1. **Stock Charts**: Display stock trend charts using a charting library (e.g., Chart.js or D3.js).
+2. **Technical Indicators**: Integrate basic indicators like Moving Averages, Volume, and Price Change Percentage.
+3. **Comparison**: Allow users to compare stock trends over different timeframes (e.g., 1 week, 1 month, 1 year).
+
+---
+
+### 4. **Non-Functional Requirements**
+
+#### 4.1 Security
+
+- Use secure methods for password storage and user authentication (e.g., bcrypt hashing, JWT tokens).
+- Protect all endpoints against unauthorized access using token-based authentication.
+
+#### 4.2 Performance
+
+- Real-time stock data updates should have a latency of no more than 5 seconds.
+- Page load times should be kept under 3 seconds to ensure smooth user experience.
+
+#### 4.3 Usability
+
+- The platform should be intuitive, providing easy-to-use interfaces for trading, portfolio management, and analytics.
+- Support responsive design for use on both desktop and mobile devices.
+
+#### 4.4 Scalability
+
+- The system should be designed to support up to 1,000 concurrent users and can be scaled further based on load requirements.
+
+#### 4.5 Availability
+
+- The platform should be available 24/7, with maintenance times communicated in advance to users.
+
+---
+
+### 5. **System Architecture**
+
+#### 5.1 System Components
+
+1. **Frontend** (React):
+   - Components for User Registration, Login, and Profile Management.
+   - Portfolio and Trading Dashboard.
+   - Stock Chart Component for displaying stock trends.
+   - Analytics Component for displaying technical indicators.
+
+2. **Backend** (Django and Django REST Framework):
+   - User Authentication System (JWT-based authentication).
+   - API Endpoints for handling trades, fetching stock data, and managing portfolios.
+   - Integration with financial data APIs for real-time stock prices.
+
+3. **Database**:
+   - Use PostgreSQL or MySQL to store user data, portfolio holdings, and transaction history.
+
+#### 5.2 Data Flow
+
+1. **User Authentication**:
+   - Users send authentication requests (login/register) from the frontend to Django REST APIs.
+2. **Market Data**:
+   - The frontend requests stock data from the Django backend, which fetches data from a third-party financial API and returns it to the frontend.
+3. **Trading**:
+   - Trading actions trigger updates to the user’s portfolio and transaction history in the database.
+
+---
+
+### 6. **User Interface Requirements**
+
+1. **User Dashboard**:
+   - **Overview**: Display user’s portfolio value, profit/loss, and recent activity.
+   - **Portfolio Table**: Show a table of holdings, including stock name, quantity, and market value.
+
+2. **Trading Screen**:
+   - **Stock Search**: Enable users to search for stocks and display live prices.
+   - **Order Form**: Provide options for market and limit orders, with fields for stock quantity and price.
+
+3. **Analytics Page**:
+   - **Charts**: Display a line chart of stock prices over different timeframes.
+   - **Technical Indicators**: Allow users to overlay indicators like moving averages on charts.
+
+4. **Profile Page**:
+   - **User Information**: Show profile details with options to edit email and password.
+
+---
+
+### 7. **Data Management Requirements**
+
+1. **User Data**: Store user profiles, hashed passwords, and authentication tokens.
+2. **Portfolio Data**: Track holdings, transactions, and order history.
+3. **Market Data**: Use cache or periodic API calls to fetch and store real-time stock data temporarily to reduce API calls.
+
+---
+
+### 8. **API Requirements**
+
+#### User Management APIs
+1. **POST /api/register/** - Register a new user.
+2. **POST /api/login/** - Authenticate user and return a JWT token.
+3. **GET /api/user/profile/** - Retrieve user profile data.
+
+#### Market Data APIs
+1. **GET /api/stock/<symbol>/** - Retrieve current price and information for a specified stock.
+2. **GET /api/stock/history/<symbol>/** - Retrieve historical data for stock trend charts.
+
+#### Portfolio Management APIs
+1. **GET /api/portfolio/** - Retrieve the user’s current portfolio.
+2. **POST /api/portfolio/trade/** - Buy or sell a stock and update portfolio and transaction history.
+
+---
+
+### 9. **Testing Requirements**
+
+1. **Unit Testing**: Perform unit tests on Django API endpoints and React components.
+2. **Integration Testing**: Test API integrations for market data, trading functions, and user portfolio updates.
+3. **UI/UX Testing**: Conduct usability testing to ensure a smooth user experience.
+4. **Performance Testing**: Ensure low latency and handle simultaneous requests without performance degradation.
+
+---
+
+### 10. **Future Enhancements**
+
+1. **Leaderboard**: Introduce a leaderboard to show top users based on portfolio performance.
+2. **Social Trading**: Allow users to view and follow other user portfolios.
+3. **Notifications**: Send price alerts and trade confirmations.
+
+---
+
+This SRS document outlines the technical and functional specifications required to implement a comprehensive virtual stock trading platform using React and Django. This guide provides clarity on each feature and component to be developed, supporting efficient development and project management.
